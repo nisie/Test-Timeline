@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/gray"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/recommend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:text="Direkomendasikan Untuk Anda"
+        />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/white"
+        android:layout_below="@+id/recommend"
+
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/cover"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:scaleType="center"
+            android:src="@drawable/topedmudik" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignBottom="@id/cover"
+            android:background="@drawable/trans_black" />
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="65dp"
+            android:background="@color/gray"
+            android:scaleType="center"
+            android:src="@drawable/ic_close_24dp" />
+
+        <TextView
+            android:id="@+id/follow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:padding="10dp"
+         android:layout_marginBottom="25dp"
+            android:layout_alignParentBottom="true"
+            android:text="IKUTI"
+            android:textColor="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/shopname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="65dp"
+            android:layout_toRightOf="@id/avatar"
+            android:text="Cincin Online Shop"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/shopname"
+            android:layout_marginRight="10dp"
+            android:text="Jakarta"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/motto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/avatar"
+            android:layout_below="@id/shopname"
+            android:text="Menjual barang barang unik nan ajaib"
+            android:textColor="@color/white"
+            android:textSize="10dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@id/cover"
+            android:layout_toRightOf="@id/avatar"
+            android:padding="5dp">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@color/gray"
+                android:scaleType="center"
+                android:src="@drawable/ic_close_24dp" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@color/gray"
+                android:scaleType="center"
+                android:src="@drawable/ic_close_24dp" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@color/gray"
+                android:scaleType="center"
+                android:src="@drawable/ic_close_24dp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

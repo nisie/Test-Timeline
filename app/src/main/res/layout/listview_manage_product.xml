@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/gray"
+    android:padding="5dp">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@color/white"
+        android:padding="5dp">
+
+        <View
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_person_add_24dp" />
+
+        <include android:id="@+id/header" layout="@layout/listview_timeline_header" />
+
+        <ImageView
+            android:id="@+id/image1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_below="@id/header"
+            android:src="@drawable/ic_close_24dp" />
+
+        <ImageView
+            android:id="@+id/image2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/header"
+            android:layout_toRightOf="@id/image1"
+            android:src="@drawable/ic_close_24dp" />
+
+        <ImageView
+            android:id="@+id/image3"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/header"
+            android:layout_toRightOf="@id/image2"
+            android:src="@drawable/ic_close_24dp" />
+
+        <ImageView
+            android:id="@+id/image4"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/header"
+            android:layout_toRightOf="@id/image3"
+            android:src="@drawable/ic_close_24dp" />
+
+        <ImageView
+            android:id="@+id/image5"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/header"
+            android:layout_toRightOf="@id/image4"
+            android:src="@drawable/ic_close_24dp" />
+
+        <ImageView
+            android:id="@+id/see_more"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/header"
+            android:layout_toRightOf="@id/image5"
+            android:src="@drawable/ic_keyboard_control_24dp" />
+    </RelativeLayout>
+</RelativeLayout>
