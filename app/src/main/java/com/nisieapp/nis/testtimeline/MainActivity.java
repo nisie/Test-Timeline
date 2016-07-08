@@ -9,17 +9,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.kumulos.android.jsonclient.Kumulos;
-import com.kumulos.android.jsonclient.ResponseHandler;
+import com.backendless.Backendless;
+import com.backendless.BackendlessCollection;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.async.callback.BackendlessCallback;
+import com.backendless.exceptions.BackendlessFault;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String API_KEY = "5mjwzz6yxxq8x31fyqmzrr8bfvnvgkxq";
-    private static final String SECRET_KEY = "rg6yrkb9";
-    private static final String GET_TIMELINE = "get_timeline";
+    private static final String APP_KEY = "9F1108C7-03B0-E405-FFC4-FADA845C2800";
+    private static final String SECRET_KEY = "BF53B182-3C9B-47C8-FF39-AF4B94D4B500";
     RecyclerView mainList;
     TimelineAdapter adapter;
 
@@ -35,25 +36,30 @@ public class MainActivity extends AppCompatActivity {
         adapter = new TimelineAdapter();
         mainList.setAdapter(adapter);
 
-        initKumulos();
+        initBackendless();
         initData(savedInstanceState);
 
     }
 
-    private void initData(Bundle savedInstanceState) {
-        HashMap params = new HashMap();
-        params.put("UserID", "1000");
+    private void initBackendless() {
+        String appVersion = "v1";
+        Backendless.initApp(this, APP_KEY, SECRET_KEY, appVersion);
+        Timeline timeline = new Timeline(101, "nisie", "tes tes tes");
 
-        Kumulos.call(GET_TIMELINE, params, new ResponseHandler() {
-            @Override
-            public void didCompleteWithResult(Object result) {
-                Log.d("NISNIS", result.toString());
-            }
-        });
     }
 
-    private void initKumulos() {
-        Kumulos.initWithAPIKeyAndSecretKey(API_KEY, SECRET_KEY, this);
+    private void initData(Bundle savedInstanceState) {
+        Backendless.Persistence.of("Timeline").find(new AsyncCallback<BackendlessCollection<Map>>() {
+            @Override
+            public void handleResponse(BackendlessCollection<Map> map) {
+                Log.i("NISNIS", map.getCurrentPage().get(0).toString());
+            }
+
+            @Override
+            public void handleFault(BackendlessFault backendlessFault) {
+
+            }
+        });
     }
 
     @Override
