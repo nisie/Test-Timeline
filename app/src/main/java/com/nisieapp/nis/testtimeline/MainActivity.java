@@ -44,15 +44,31 @@ public class MainActivity extends AppCompatActivity {
     private void initBackendless() {
         String appVersion = "v1";
         Backendless.initApp(this, APP_KEY, SECRET_KEY, appVersion);
-        Timeline timeline = new Timeline(101, "nisie", "tes tes tes");
+//        Timeline timeline = new Timeline();
+//        timeline.setContext("Tes tes tes tes");
+//        timeline.setUserId("1");
+//        timeline.setType(111);
+//
+//        Backendless.Persistence.save(timeline, new AsyncCallback<Timeline>() {
+//            @Override
+//            public void handleResponse(Timeline timeline) {
+//                Log.i("NISNIS", timeline.getUserId() + "has been saved");
+//
+//            }
+//
+//            @Override
+//            public void handleFault(BackendlessFault backendlessFault) {
+//
+//            }
+//        });
 
     }
 
     private void initData(Bundle savedInstanceState) {
-        Backendless.Persistence.of("Timeline").find(new AsyncCallback<BackendlessCollection<Map>>() {
+        Backendless.Persistence.of(Timeline.class).find(new AsyncCallback<BackendlessCollection<Timeline>>() {
             @Override
-            public void handleResponse(BackendlessCollection<Map> map) {
-                Log.i("NISNIS", map.getCurrentPage().get(0).toString());
+            public void handleResponse(BackendlessCollection<Timeline> timelineBackendlessCollection) {
+                Log.i("NISNIS",timelineBackendlessCollection.getCurrentPage().get(0).toString());
             }
 
             @Override

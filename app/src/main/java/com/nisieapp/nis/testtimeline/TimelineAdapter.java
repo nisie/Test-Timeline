@@ -184,8 +184,8 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
     private void bindHeaderTimeline(TimelineAdapter.ViewHolder holder, int position) {
         if (list.get(position).context != null)
             holder.context.setText(list.get(position).context);
-        if (list.get(position).poster != null)
-            holder.poster.setText(list.get(position).poster);
+        if (list.get(position).userId != null)
+            holder.poster.setText(list.get(position).userId);
     }
 
     @Override
