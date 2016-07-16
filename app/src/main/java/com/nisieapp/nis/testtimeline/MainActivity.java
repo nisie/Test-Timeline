@@ -1,5 +1,6 @@
 package com.nisieapp.nis.testtimeline;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,12 +9,17 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.backendless.Backendless;
 import com.backendless.BackendlessCollection;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.async.callback.BackendlessCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.BackendlessDataQuery;
+import com.backendless.persistence.QueryOptions;
 
 import java.util.Map;
 
@@ -23,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String SECRET_KEY = "BF53B182-3C9B-47C8-FF39-AF4B94D4B500";
     RecyclerView mainList;
     TimelineAdapter adapter;
+    Button addButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +38,22 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        addButton = (Button) findViewById(R.id.addButton);
         mainList = (RecyclerView) findViewById(R.id.mainList);
         mainList.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new TimelineAdapter();
+        adapter = new TimelineAdapter(this);
         mainList.setAdapter(adapter);
 
         initBackendless();
         initData(savedInstanceState);
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PostActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -46,13 +62,13 @@ public class MainActivity extends AppCompatActivity {
         Backendless.initApp(this, APP_KEY, SECRET_KEY, appVersion);
 //        Timeline timeline = new Timeline();
 //        timeline.setContext("Tes tes tes tes");
-//        timeline.setUserId("1");
+//        timeline.setShopId("1");
 //        timeline.setType(111);
 //
 //        Backendless.Persistence.save(timeline, new AsyncCallback<Timeline>() {
 //            @Override
 //            public void handleResponse(Timeline timeline) {
-//                Log.i("NISNIS", timeline.getUserId() + "has been saved");
+//                Log.i("NISNIS", timeline.getShopId() + "has been saved");
 //
 //            }
 //
@@ -65,15 +81,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData(Bundle savedInstanceState) {
-        Backendless.Persistence.of(Timeline.class).find(new AsyncCallback<BackendlessCollection<Timeline>>() {
+
+        StringBuilder whereClause = new StringBuilder();
+        whereClause.append("isDeleted = false");
+        whereClause.append(" and ");
+        whereClause.append("createdBy.FavoritedBy.userId = 1");
+
+        BackendlessDataQuery dataQuery = new BackendlessDataQuery();
+        dataQuery.setWhereClause(whereClause.toString());
+
+        Backendless.Persistence.of(Timeline.class).find(dataQuery, new AsyncCallback<BackendlessCollection<Timeline>>() {
             @Override
             public void handleResponse(BackendlessCollection<Timeline> timelineBackendlessCollection) {
-                Log.i("NISNIS",timelineBackendlessCollection.getCurrentPage().get(0).toString());
+                Log.i("NISNIS", timelineBackendlessCollection.getCurrentPage().get(0).toString());
+                adapter.addList(timelineBackendlessCollection.getCurrentPage());
             }
 
             @Override
             public void handleFault(BackendlessFault backendlessFault) {
-
+                Log.e("NISNISERR", backendlessFault.toString());
             }
         });
     }

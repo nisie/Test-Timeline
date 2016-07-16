@@ -14,7 +14,7 @@
         android:src="@drawable/ic_close_24dp" />
 
     <ImageView
-        android:id="@+id/spam"
+        android:id="@+id/delete"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_alignParentEnd="true"

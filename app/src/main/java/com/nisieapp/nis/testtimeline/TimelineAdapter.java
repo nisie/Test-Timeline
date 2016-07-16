@@ -1,6 +1,8 @@
 package com.nisieapp.nis.testtimeline;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +10,12 @@ import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.backendless.Backendless;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessFault;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Nisie on 7/2/2016.
@@ -21,12 +28,16 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
     private static final int VIEW_MANAGE_PRODUCT = 102;
     private static final int VIEW_MANAGE_SHOP = 103;
 
+    private static final String APP_KEY = "9F1108C7-03B0-E405-FFC4-FADA845C2800";
+    private static final String SECRET_KEY = "BF53B182-3C9B-47C8-FF39-AF4B94D4B500";
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         TextView poster;
         TextView time;
         TextView context;
         ImageView avatar;
+        ImageView delete;
 
         public ViewHolder(View v) {
             super(v);
@@ -34,13 +45,15 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
             time = (TextView) v.findViewById(R.id.time);
             context = (TextView) v.findViewById(R.id.context);
             avatar = (ImageView) v.findViewById(R.id.avatar);
-
+            delete = (ImageView) v.findViewById(R.id.delete);
         }
     }
 
     ArrayList<Timeline> list;
+    private final Context context;
 
-    public TimelineAdapter() {
+    public TimelineAdapter(Context context) {
+        this.context = context;
         this.list = generateData();
     }
 
@@ -181,11 +194,32 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
 
     }
 
-    private void bindHeaderTimeline(TimelineAdapter.ViewHolder holder, int position) {
+    private void bindHeaderTimeline(TimelineAdapter.ViewHolder holder, final int position) {
         if (list.get(position).context != null)
             holder.context.setText(list.get(position).context);
-        if (list.get(position).userId != null)
-            holder.poster.setText(list.get(position).userId);
+        if (list.get(position).shopId != null)
+            holder.poster.setText(list.get(position).shopId);
+
+        if(holder.delete != null)
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                list.get(position).setIsDeleted(true);
+                String appVersion = "v1";
+                Backendless.initApp(context, APP_KEY, SECRET_KEY, appVersion);
+                Backendless.Persistence.save(list.get(position), new AsyncCallback<Timeline>() {
+                    @Override
+                    public void handleResponse(Timeline timeline) {
+                        Log.i("NISNIS", timeline.getContext() + " is updated");
+                    }
+
+                    @Override
+                    public void handleFault(BackendlessFault backendlessFault) {
+                        Log.e("NISNISERR", backendlessFault.toString());
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -196,5 +230,10 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
     @Override
     public int getItemViewType(int position) {
         return list.get(position).type;
+    }
+
+    public void addList(List<Timeline> list) {
+        this.list.addAll(list);
+        notifyDataSetChanged();
     }
 }

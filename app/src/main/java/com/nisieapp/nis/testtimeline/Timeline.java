@@ -7,34 +7,47 @@ import java.util.Date;
  */
 public class Timeline {
 
-    String userId;
+    String shopId;
     String context;
     String imgUrl;
     int type;
-    private Date created;
-    private Date updated;
+    Date created;
+    Date updated;
+    Boolean isDeleted;
+    private String objectId;
 
     public Timeline() {
 
+    }
+
+
+    public String getObjectId()
+    {
+        return objectId;
+    }
+
+    public void setObjectId( String objectId )
+    {
+        this.objectId = objectId;
     }
 
     public Timeline(int type) {
         this.type = type;
     }
 
-    public Timeline(int type, String userId, String context) {
+    public Timeline(int type, String shopId, String context) {
         this.type = type;
-        this.userId = userId;
+        this.shopId = shopId;
         this.context = context;
         this.imgUrl = "";
     }
 
-    public String getUserId() {
-        return userId;
+    public String getShopId() {
+        return shopId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setShopId(String shopId) {
+        this.shopId = shopId;
     }
 
     public String getContext() {
@@ -71,5 +84,21 @@ public class Timeline {
     public void setUpdated( Date updated )
     {
         this.updated = updated;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }
