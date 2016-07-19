@@ -17,8 +17,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.backendless.Backendless;
+import com.backendless.BackendlessCollection;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.BackendlessDataQuery;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
@@ -40,6 +42,7 @@ public class PostActivity extends AppCompatActivity {
     String imageUrl;
 
     ProgressDialog dialog;
+    Shop shop;
 
     private static final String APP_KEY = "9F1108C7-03B0-E405-FFC4-FADA845C2800";
     private static final String SECRET_KEY = "BF53B182-3C9B-47C8-FF39-AF4B94D4B500";
@@ -50,6 +53,9 @@ public class PostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        String appVersion = "v1";
+        Backendless.initApp(this, APP_KEY, SECRET_KEY, appVersion);
 
         Map config = new HashMap();
         config.put("cloud_name", "nisie");
@@ -73,20 +79,41 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
-        upload.setOnClickListener(new View.OnClickListener() {
+
+        StringBuilder whereClause = new StringBuilder();
+        whereClause.append("shopId = 1");
+
+        BackendlessDataQuery dataQuery = new BackendlessDataQuery();
+        dataQuery.setWhereClause(whereClause.toString());
+
+        Backendless.Persistence.of(Shop.class).find(dataQuery, new AsyncCallback<BackendlessCollection<Shop>>() {
             @Override
-            public void onClick(View v) {
-                if (imagepath != null) {
-                    dialog = ProgressDialog.show(PostActivity.this, "", "Uploading file...", true);
-                    new Thread(new Runnable() {
-                        public void run() {
-                            uploadFile(imagepath);
+            public void handleResponse(BackendlessCollection<Shop> listShop) {
+                Log.i("NISNIS GET SHOP", listShop.getCurrentPage().get(0).shopName);
+                shop = listShop.getCurrentPage().get(0);
+                upload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (imagepath != null) {
+                            dialog = ProgressDialog.show(PostActivity.this, "", "Uploading file...", true);
+                            new Thread(new Runnable() {
+                                public void run() {
+                                    uploadFile(imagepath);
+                                }
+                            }).start();
                         }
-                    }).start();
-                }
+                    }
+
+                });
             }
 
+            @Override
+            public void handleFault(BackendlessFault backendlessFault) {
+                Log.e("NISNISERR", backendlessFault.toString());
+            }
         });
+
+
     }
 
     private void uploadFile(String imagepath) {
@@ -99,9 +126,10 @@ public class PostActivity extends AppCompatActivity {
             timeline.setShopId("1");
             timeline.setType(111);
             timeline.setImgUrl(imageUrl);
+            if (shop != null)
+                timeline.setShop(shop);
 
-            String appVersion = "v1";
-            Backendless.initApp(this, APP_KEY, SECRET_KEY, appVersion);
+
             Backendless.Persistence.save(timeline, new AsyncCallback<Timeline>() {
                 @Override
                 public void handleResponse(Timeline timeline) {
@@ -112,6 +140,7 @@ public class PostActivity extends AppCompatActivity {
 
                 @Override
                 public void handleFault(BackendlessFault backendlessFault) {
+                    Log.i("NISNIS ERR", backendlessFault.toString());
 
                 }
             });

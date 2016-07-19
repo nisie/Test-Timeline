@@ -85,10 +85,12 @@ public class MainActivity extends AppCompatActivity {
         StringBuilder whereClause = new StringBuilder();
         whereClause.append("isDeleted = false");
         whereClause.append(" and ");
-        whereClause.append("createdBy.FavoritedBy.userId = 1");
+        whereClause.append("shop.FavoritedBy.userId = 1");
 
         BackendlessDataQuery dataQuery = new BackendlessDataQuery();
         dataQuery.setWhereClause(whereClause.toString());
+        dataQuery.setPageSize(2);
+        dataQuery.setOffset(0); // Next Page tambahin pageSize
 
         Backendless.Persistence.of(Timeline.class).find(dataQuery, new AsyncCallback<BackendlessCollection<Timeline>>() {
             @Override

@@ -15,19 +15,18 @@ public class Timeline {
     Date updated;
     Boolean isDeleted;
     private String objectId;
+    Shop shop;
 
     public Timeline() {
 
     }
 
 
-    public String getObjectId()
-    {
+    public String getObjectId() {
         return objectId;
     }
 
-    public void setObjectId( String objectId )
-    {
+    public void setObjectId(String objectId) {
         this.objectId = objectId;
     }
 
@@ -66,23 +65,19 @@ public class Timeline {
         this.type = type;
     }
 
-    public Date getCreated()
-    {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated( Date created )
-    {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
-    public Date getUpdated()
-    {
+    public Date getUpdated() {
         return updated;
     }
 
-    public void setUpdated( Date updated )
-    {
+    public void setUpdated(Date updated) {
         this.updated = updated;
     }
 
@@ -100,5 +95,13 @@ public class Timeline {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
     }
 }
